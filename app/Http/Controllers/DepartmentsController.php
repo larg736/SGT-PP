@@ -5,19 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
 use App\Models\Department;
-use App\Models\Category;
-use App\Models\Level;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class DepartmentsController extends Controller
 {
+
     public function index()
     {
         abort_if(Gate::denies('department_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $departments = Department::all();
+        
+        $departments = Department::withTrashed()->get();
 
         return view('departments.index', compact('departments'));
     }
@@ -33,20 +31,12 @@ class DepartmentsController extends Controller
     {
         Department::create($request->validated());
 
-        return redirect()->route('departments.index');
-    }
-
-    public function show(Department $department)
-    {
-        abort_if(Gate::denies('department_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('departments.show', compact('department'));
+        return redirect()->route('departments.index')->with('alert', 'ok');
     }
 
     public function edit(Department $department)
     {
         abort_if(Gate::denies('department_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-       
         $categories = $department->categories;
         $levels = $department->levels;
         return view('departments.edit', compact('department', 'categories', 'levels'));
@@ -56,15 +46,24 @@ class DepartmentsController extends Controller
     {
         $department->update($request->validated());
 
-        return redirect()->route('departments.index');
+        return redirect()->route('departments.index')->with('alert', 'ok');
     }
 
     public function destroy(Department $department)
     {
-        abort_if(Gate::denies('department_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        /* Department::find($department)->delete(); */
 
         $department->delete();
 
-        return redirect()->route('departments.index');
+        return redirect()->route('departments.index')->with('eliminar','ok');
+    }
+
+    public function restore($id)
+    {
+        /* Department::withTrashed()->find($id)->restore(); */
+
+        Department::where('id', $id)->withTrashed()->restore();
+
+        return back()->with('restore', 'ok');
     }
 }

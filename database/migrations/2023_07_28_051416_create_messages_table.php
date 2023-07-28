@@ -11,11 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departments', function (Blueprint $table) {
+        Schema::create('messages', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('description');
-            $table->softDeletes();
+
+            $table->integer('demand_id')->unsigned();
+            $table->foreign('demand_id')->references('id')->on('demands');
+
+            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();               
+
+            $table->string('message');
+
             $table->timestamps();
         });
     }
@@ -25,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('messages');
     }
 };

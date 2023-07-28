@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
@@ -11,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
+
     public function edit(Category $category)
     {
         abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -21,26 +21,27 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         Category::create($request->validated());
-
-        /* return redirect()->route('categories.index'); */
-        return back();
-    }
-
-    public function update(UpdateCategoryRequest $request, Category $category)
-    {
-        $category->update($request->validated());
-
-        /* return redirect()->route('categories.index'); */
-        return back();
+        return back()->with('alert', 'ok');
     }
 
     public function destroy(Category $category)
     {
         abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $category->delete();
-
-        /* return redirect()->route('categories.index'); */
-        return back();
+        return back()->with('eliminar','ok');
     }
+
+
+    public function update(UpdateCategoryRequest $request, Category $category)
+    {
+        $category_id = $request->input('category_id');
+        $category = Category::find($category_id);
+        $category->name = $request->input('name');
+        $category->update($request->validated());
+
+        return back()->with('alert', 'ok');
+    }
+
 }
+
+    

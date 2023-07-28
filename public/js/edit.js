@@ -1,6 +1,8 @@
 $(function() {
     $('[data-category]').on('click', editCategoryModal);
     $('[data-level]').on('click', editLevelModal);
+    $('[data-demand]').on('click', demandShow);
+
 });
 
 function editCategoryModal() {
@@ -24,3 +26,15 @@ function editLevelModal() {
     // show
     $('#modalEditLevel').modal('show');
 }
+
+function demandShow() {
+    // id
+    var id = $(this).data('demand');
+    location.href = '/demands/'+id;
+}
+
+/* function demandTake() {
+    // id
+    var clerk_id = $(this).data('department');
+    location.href = '/demands/'+clerk_id;
+} */

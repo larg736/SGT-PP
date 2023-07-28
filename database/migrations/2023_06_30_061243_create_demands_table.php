@@ -18,20 +18,21 @@ return new class extends Migration
             $table->string('description');            
             $table->string('severity', 1);
 
-            //$table->boolean('active')->default(1);
+            $table->boolean('active')->default(1);
 
             $table->integer('category_id')->unsigned()->nullable();
             $table->foreign('category_id')->references('id')->on('categories');
 
-            $table->integer('department_id')->unsigned()->nullable();;
+            $table->integer('department_id')->unsigned()->nullable();
             $table->foreign('department_id')->references('id')->on('departments');
 
-            $table->integer('level_id')->unsigned();
+            $table->integer('level_id')->unsigned()->nullable();
             $table->foreign('level_id')->references('id')->on('levels');
 
             $table->foreignId('client_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->foreignId('clerk_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreignId('clerk_id')->nullable()->constrained('users')->nullOnDelete();
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

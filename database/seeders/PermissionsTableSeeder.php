@@ -16,19 +16,19 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 2,
-                'title' => 'task_access',
-            ],
-            [
-                'id'    => 3,
                 'title' => 'department_access',
             ],
             [
-                'id'    => 4,
+                'id'    => 3,
                 'title' => 'category_access',
             ],
             [
-                'id'    => 5,
+                'id'    => 4,
                 'title' => 'level_access',
+            ],
+            [
+                'id'    => 5,
+                'title' => 'demand_access',
             ],
         ];
 

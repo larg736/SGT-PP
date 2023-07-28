@@ -6,9 +6,11 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Models\Department;
+use App\Models\DepartmentUser;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
+
 
 class UsersController extends Controller
 {
@@ -17,8 +19,10 @@ class UsersController extends Controller
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $users = User::with('roles')->get();
+        $roles = Role::pluck('title', 'id');
 
-        return view('users.index', compact('users'));
+
+        return view('users.index', compact('users', 'roles'));
     }
 
     public function create()
@@ -34,8 +38,9 @@ class UsersController extends Controller
     {
         $user = User::create($request->validated());
         $user->roles()->sync($request->input('roles', []));
-        
-        return redirect()->route('users.index')->with('success','User created successfully.');
+        $user->password = bcrypt($request->input('password')); 	
+    	
+        return redirect()->route('users.index')->with('alert','ok');
     }
 
     public function show(User $user)
@@ -48,20 +53,24 @@ class UsersController extends Controller
     public function edit(User $user)
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        $departments = Department::all();
+        $departments_user = DepartmentUser::where('user_id', $user->id)->get();
         $roles = Role::pluck('title', 'id');
-
         $user->load('roles');
-
-        return view('users.edit', compact('user', 'roles'));
+        
+        return view('users.edit', compact('user', 'roles', 'departments', 'departments_user'));
     }
 
     public function update(UpdateUserRequest $request, User $user)
     {
         $user->update($request->validated());
         $user->roles()->sync($request->input('roles', []));
+        $password = $request->input('password');
+    	if ($password)
+    		$user->password = bcrypt($password);
+    	$user->save();
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('alert', 'ok');
     }
 
     public function destroy(User $user)
@@ -70,6 +79,12 @@ class UsersController extends Controller
 
         $user->delete();
 
-        return redirect()->route('users.index')->with('danger','El usuario de baja.');
+        return redirect()->route('users.index')->with('eliminar','ok');
     }
+
+    public function pdf()
+    {
+        
+    }
+
 }

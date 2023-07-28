@@ -10,10 +10,10 @@ class StoreCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'department_id' => [
+            'name' => [
                 'required', 'string',
             ],
-            'name' => [
+            'department_id' => [
                 'required', 'string',
             ],
         ];

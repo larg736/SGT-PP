@@ -22,6 +22,9 @@ class DatabaseSeeder extends Seeder
             RoleUserTableSeeder::class,
             DepartmentsTableSeeder::class,
             CategoriesTableSeeder::class,
+            LevelsTableSeeder::class,
+            DepartmentUserTableSeeder::class,
+            DemandsTableSeeder::class,
         ]);
     }
 }

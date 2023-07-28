@@ -75,4 +75,38 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class);
     }
+
+    public function Departments()
+    {
+        return $this->belongsToMany(Department::class);
+    }
+
+    public function getListOfDepartmentsAttribute()
+    {
+        if ($this->roles()->where('role_id', 2)->exists()){
+            return $this->departments;
+        }
+        return Department::all();
+    }
+
+    public function getIsAdminAttribute()
+    {
+        return $this->roles()->where('role_id', 1)->exists();
+    }
+    public function getIsClerkAttribute()
+    {
+        return $this->roles()->where('role_id', 2)->exists();
+    }
+    public function getIsClientAttribute()
+    {
+        return $this->roles()->where('role_id', 3)->exists();   
+    }
+
+    public function canTake(Demand $demand)
+    {
+        return DepartmentUser::where('user_id', $this->id)
+                        ->where('level_id', $demand->level_id)
+                        ->first();
+    }
+
 }

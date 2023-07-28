@@ -4,12 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Department extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
-        'name', 'description',
+        'name', 'description', 'start',
     ];
+
+    protected $dates = ['deleted_at'];
 
     public function categories()
     {
@@ -20,4 +25,15 @@ class Department extends Model
     {
         return $this->hasMany(Level::class);
     }
+
+    public function Users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function getFirstLevelIdAttribute()
+    {
+        return $this->levels->first()->id;
+    }
+
 }
