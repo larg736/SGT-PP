@@ -1,18 +1,14 @@
 <x-action-section>
     <x-slot name="title">
-        <h2 class="max-w-xl text-xl text-gray-200">
         {{ __('Delete Account') }}
-        </h2>
     </x-slot>
 
     <x-slot name="description">
-        <h2 class="max-w-xl text-sm text-gray-200">
         {{ __('Permanently delete your account.') }}
-        </h2>
     </x-slot>
 
     <x-slot name="content">
-        <div class="max-w-xl text-sm text-gray-600">
+        <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
             {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
         </div>
 
