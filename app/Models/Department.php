@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Department extends Model
 {
+    
+    use HasFactory;
     use SoftDeletes;
 
     protected $fillable = [
@@ -34,6 +36,14 @@ class Department extends Model
     public function getFirstLevelIdAttribute()
     {
         return $this->levels->first()->id;
+    }
+
+    public static function search($search)
+    {
+        return empty($search) ? static::query()
+            : static::query()->where('id', 'like', '%'.$search.'%')
+                ->orWhere('name', 'like', '%'.$search.'%')
+                ->orWhere('description', 'like', '%'.$search.'%');
     }
 
 }

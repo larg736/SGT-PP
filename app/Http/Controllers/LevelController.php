@@ -16,36 +16,49 @@ class LevelController extends Controller
         return Level::where('department_id', $id)->get();
     }
 
-    public function edit(Level $level)
+    public function edit($id)
     {
         abort_if(Gate::denies('level_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-       
+        $level = Level::findOrFail($id);
         return view('levels.edit', compact('level'));
     }
 
     public function store(StoreLevelRequest $request)
     {
-        Level::create($request->validated());
-        return back()->with('alert', 'ok');
+        $department_id = $request->input('department_id');
+    	$name = $request->input('name');
+		$levels = Level::where('department_id', $department_id)->where('name', $name)->withTrashed()->first();
+        if($levels)
+            return back()->with(['title' => 'El Nombre ingresado ya pertenece a un Nivel', 'icon' => 'error']);
+
+        $levels = Level::create($request->validated());
+        return back()->with('enviado','ok');
     }
 
-    public function update(UpdateLevelRequest $request, Level $level)
+    public function update(UpdateLevelRequest $request, $id)
     {
-        
-        $level_id = $request->input('level_id');
-        $level = Level::find($level_id);
+        $level = Level::find($id);
+        $department_id = $request->input('department_id');
         $level->name = $request->input('name');
+        $exists = Level::where('department_id', $department_id)->where('name', $level->name)->where('id', '<>', $level->id)->withTrashed()->first();
+        if ($exists) {
+            return back()->with(['title' => 'El Nombre ingresado ya pertenece a un Nivel', 'icon' => 'error']);
+        }
         $level->update($request->validated());
-    
-        return back()->with('alert', 'ok');
+        return back()->with('enviado','ok');
     }
 
     public function destroy(Level $level)
     {
         abort_if(Gate::denies('level_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $level->delete();
-        return back()->with('eliminar', 'ok');
-
+        return back()->with('enviado','ok');
     }
+
+    public function restore($id)
+    {
+        Level::where('id', $id)->withTrashed()->restore();
+        return back()->with('enviado','ok');
+    }
+
 }

@@ -29,6 +29,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'selected_department_id',
     ];
 
     /**
@@ -93,10 +94,12 @@ class User extends Authenticatable
     {
         return $this->roles()->where('role_id', 1)->exists();
     }
+
     public function getIsClerkAttribute()
     {
         return $this->roles()->where('role_id', 2)->exists();
     }
+
     public function getIsClientAttribute()
     {
         return $this->roles()->where('role_id', 3)->exists();   
@@ -109,4 +112,11 @@ class User extends Authenticatable
                         ->first();
     }
 
+    public static function search($search)
+    {
+        return empty($search) ? static::query()
+            : static::query()->where('id', 'like', '%'.$search.'%')
+                ->orWhere('name', 'like', '%'.$search.'%')
+                ->orWhere('email', 'like', '%'.$search.'%');
+    }
 }

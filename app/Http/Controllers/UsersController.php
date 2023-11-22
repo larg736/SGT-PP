@@ -10,27 +10,27 @@ use App\Models\Department;
 use App\Models\DepartmentUser;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 
 class UsersController extends Controller
 {
-    public function index()
+
+    public function index(Request $request)
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        
         $users = User::with('roles')->get();
         $roles = Role::pluck('title', 'id');
-
-
+        
         return view('users.index', compact('users', 'roles'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $roles = Role::pluck('title', 'id');
-
         return view('users.create', compact('roles'));
     }
 
@@ -38,15 +38,14 @@ class UsersController extends Controller
     {
         $user = User::create($request->validated());
         $user->roles()->sync($request->input('roles', []));
-        $user->password = bcrypt($request->input('password')); 	
-    	
-        return redirect()->route('users.index')->with('alert','ok');
+        $user->password = bcrypt($request->input('password'));
+
+        return redirect()->route('users.index')->with('enviado','ok');
     }
 
     public function show(User $user)
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('users.show', compact('user'));
     }
 
@@ -54,7 +53,7 @@ class UsersController extends Controller
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $departments = Department::all();
-        $departments_user = DepartmentUser::where('user_id', $user->id)->get();
+        $departments_user = DepartmentUser::where('user_id', $user->id)->withTrashed()->paginate(5);
         $roles = Role::pluck('title', 'id');
         $user->load('roles');
         
@@ -70,21 +69,24 @@ class UsersController extends Controller
     		$user->password = bcrypt($password);
     	$user->save();
 
-        return redirect()->route('users.index')->with('alert', 'ok');
+        return redirect()->route('users.index')->with('enviado','ok');
     }
 
     public function destroy(User $user)
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $user->delete();
-
-        return redirect()->route('users.index')->with('eliminar','ok');
+        return redirect()->route('users.index')->with('enviado','ok');
     }
 
-    public function pdf()
+    public function prnpriview(){
+        $users = User::all();
+        return view('users.print')->with('users', $users);
+    }
+
+    public function restore($id)
     {
-        
+        User::where('id', $id)->withTrashed()->restore();
+        return back()->with('enviado','ok');
     }
-
 }

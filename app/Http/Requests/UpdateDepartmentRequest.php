@@ -12,13 +12,14 @@ class UpdateDepartmentRequest extends FormRequest
     {
         return [
             'name' => [
-                'required', 'string',
+                'required', 'string', 'unique:departments,name,' . request()->route('department')->id,
             ],
             'description' => [
                 'required', 'string',
             ]
         ];
     }
+    
     public function authorize()
     {
         return Gate::allows('department_access');

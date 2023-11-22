@@ -12,7 +12,7 @@ class StoreDepartmentRequest extends FormRequest
     {
         return [
             'name' => [
-                'required', 'string',
+                'required', 'string', 'unique:departments',
             ],
             'description' => [
                 'required', 'string',
