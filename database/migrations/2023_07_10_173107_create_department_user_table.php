@@ -20,7 +20,7 @@ return new class extends Migration
 
             $table->integer('level_id')->unsigned();
             $table->foreign('level_id')->references('id')->on('levels');
-
+            $table->softDeletes();
             $table->timestamps();
         });
     }

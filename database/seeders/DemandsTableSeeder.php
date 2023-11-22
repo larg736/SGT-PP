@@ -22,7 +22,8 @@ class DemandsTableSeeder extends Seeder
         	    'department_id' => 1,
         	    'level_id' => 1,
         	    'client_id' => 3,
-        	    'clerk_id' => 2
+        	    'clerk_id' => null,
+                'created_at'=> '2023-11-03 01:14:49'
             ],
             [
                 'title' => 'Segunda Solicitud',
@@ -32,7 +33,8 @@ class DemandsTableSeeder extends Seeder
         	    'department_id' => 1,
         	    'level_id' => 1,
         	    'client_id' => 3,
-        	    'clerk_id' => 2
+        	    'clerk_id' => null,
+                'created_at'=> '2023-11-03 00:14:49'
             ],
         
         ];
