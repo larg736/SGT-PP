@@ -32,6 +32,8 @@ Ver Tarea
 
 ![Captura de pantalla (16)](https://github.com/larg736/SGT-PP/assets/78891892/7fe50edf-a268-490a-aaaf-7e254f24b72c)
 
+![Captura de pantalla (18)](https://github.com/larg736/SGT-PP/assets/78891892/50372e1e-9607-4b94-8428-be5e74ab6c51)
+
 Panel Trabajador
 
 ![Captura de pantalla (14)](https://github.com/larg736/SGT-PP/assets/78891892/3e891e8d-bdb8-460d-8a4a-1c33df4aa758)
