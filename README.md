@@ -1,1 +1,2 @@
-![Digitalización de bienvenida](https://github.com/larg736/SGT-PP/assets/78891892/36a1d99d-2854-4029-a5d5-e0acd2f0b2f7)
+Login 
+![Captura de pantalla (4)](https://github.com/larg736/SGT-PP/assets/78891892/992103c7-b79f-43a1-96ae-f615518b5e53)
