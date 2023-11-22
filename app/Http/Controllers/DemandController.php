@@ -81,6 +81,8 @@ class DemandController extends Controller
     }
 
     public function details($id){
+        abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $demand = Demand::findOrFail($id);
         $user = auth()->user();
         if (isset($demand->department->levels)) {
