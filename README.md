@@ -13,3 +13,26 @@ Tabla Usuario
 Editar Usuario. Asignar Departamento y nivel.
 
 ![Captura de pantalla (14)](https://github.com/larg736/SGT-PP/assets/78891892/f9e63f2f-071b-4d35-8f19-0ddade56727e)
+
+Tabla Departamento 
+
+![Captura de pantalla (9)](https://github.com/larg736/SGT-PP/assets/78891892/64eb9a7c-5f84-4916-97ca-3a42c6961cf0)
+
+Editar Departamento. Asignar Categoria y Nivel.
+
+![Captura de pantalla (17)](https://github.com/larg736/SGT-PP/assets/78891892/3584eaa1-a07f-4f9f-91da-0d471ce46955)
+
+Tabla tareas 
+
+![Captura de pantalla (12)](https://github.com/larg736/SGT-PP/assets/78891892/d1459ece-de67-454c-a2b5-5ac9c8b6ba9a)
+
+Ver Tarea
+
+![Captura de pantalla (13)](https://github.com/larg736/SGT-PP/assets/78891892/77e20046-7570-44d7-8c2f-c8920de82f82)
+
+Panel Trabajador
+
+![Captura de pantalla (14)](https://github.com/larg736/SGT-PP/assets/78891892/3e891e8d-bdb8-460d-8a4a-1c33df4aa758)
+
+
+
