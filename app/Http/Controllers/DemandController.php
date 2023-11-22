@@ -142,7 +142,7 @@ class DemandController extends Controller
     {
         $user = auth()->user();
 
-        if (! $user->is_clerk)
+        if (! $user->is_clerk && !$user->is_admin)
             return back();
 
         $demand = Demand::findOrFail($id);
