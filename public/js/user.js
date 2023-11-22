@@ -1,7 +1,5 @@
 $(function() {
-	
 	$('#select-department').on('change', onSelectDepartmentChange);
-
 });
 
 function onSelectDepartmentChange() {
@@ -11,7 +9,7 @@ function onSelectDepartmentChange() {
 		$('#select-level').html('<option value="">Seleccione nivel</option>');
 		return;
 	}
-
+ 
 	// AJAX
 	$.get('/api/department/'+department_id+'/niveles', function (data) {
 		var html_select = '<option value="">Seleccione nivel</option>';
@@ -19,4 +17,5 @@ function onSelectDepartmentChange() {
 			html_select += '<option value="'+data[i].id+'">'+data[i].name+'</option>';
 		$('#select-level').html(html_select);
 	});
+
 }

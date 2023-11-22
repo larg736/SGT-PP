@@ -4,5 +4,9 @@ $(function () {
 
 function onNewDepartmentSelected() {
 	var department_id = $(this).val();
-	location.href = '/seleccionar/Departments/'+department_id;
-}
+	if(! department_id){
+		location.href = '/home'
+	}else{
+		location.href = '/seleccionar/Departments/'+department_id;
+	}
+} 
